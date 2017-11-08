@@ -49,6 +49,10 @@ def get_xsrf():
     index_url = 'https://www.zhihu.com'
     # 获取登录时需要用到的_xsrf
     index_page = session.get(index_url, headers=headers)
+    # cookies 中包含_xsrf，则使用
+    _xsrf = index_page.cookies.get('_xsrf')
+    if (_xsrf):
+        return _xsrf
     html = index_page.text
     pattern = r'name="_xsrf" value="(.*?)"'
     # 这里的_xsrf 返回的是一个list
